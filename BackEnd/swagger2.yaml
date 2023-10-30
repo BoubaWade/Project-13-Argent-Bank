@@ -1,0 +1,174 @@
+swagger: "2.0"
+info:
+  title: "Bank Argent API documentation - Transactions"
+  description: Contains all available API endpoints for transactions
+  version: "1.0.0"
+  termsOfService: "http://swagger.io/terms/"
+host: "localhost:3001"
+basePath: "/api/v1"
+schemes:
+  - "http"
+tags:
+  - name: "transactions"
+    description: "Everything about your Transactions"
+
+paths:
+  /transactions:
+    post:
+      tags:
+        - "transactions"
+      summary: "Add a Transaction"
+      description: "Add a Transaction"
+      operationId: "postTransactions"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/Transaction"
+      responses:
+        "201":
+          description: "Success, transactions have been created"
+        "404":
+          description: "Ressource Not found"
+        "500":
+          description: "Internal Server Error"
+      security:
+        - Bearer: []
+    get:
+      tags:
+        - "transactions"
+      summary: "Get all transactions"
+      description: "Get all transactions"
+      operationId: "getTransactions"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/Transaction"
+      responses:
+        "200":
+          description: "Success, transactions have been recovered"
+        "404":
+          description: "Ressource Not found"
+        "500":
+          description: "Internal Server Error"
+      security:
+        - Bearer: []
+  /transactions/{id}:
+    get:
+      tags:
+        - "transaction"
+      summary: "Find transaction by ID"
+      description: "Returns a single transaction"
+      operationId: "getTransactionById"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of transaction to return"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        "200":
+          description: "Success, the resource has been retrieved"
+        "404":
+          description: "Transaction Not found"
+        "500":
+          description: "Internal Server Error"
+      security:
+        - Bearer: []
+    put:
+      tags:
+        - "transaction"
+      summary: "Update transaction"
+      description: "Update transaction"
+      operationId: "putTransaction"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of transaction to return"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        "200":
+          description: "Success, transaction updated"
+        "404":
+          description: "Not found"
+        "500":
+          description: "Internal Server Error"
+      security:
+        - Bearer: []
+    delete:
+      tags:
+        - "transaction"
+      summary: "Delete transaction's informations"
+      description: "Delete transaction's informations"
+      operationId: "deleteTransactionInformation"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "transaction's Id"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        "200":
+          description: "Success, transaction's informations deleted"
+        "404":
+          description: "Transaction Not found"
+        "500":
+          description: "Internal Server Error"
+      security:
+        - Bearer: []
+
+definitions:
+  Transaction:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        description: "Transaction's Id"
+      date:
+        type: "string"
+        description: "Transaction's date"
+      description:
+        type: "string"
+        description: "Transaction's description"
+      amount:
+        type: "number"
+        description: "Transaction's amount"
+      balance:
+        type: "number"
+        description: "Account's balance after transaction"
+      title:
+        type: "string"
+        description: "Transaction's name"
+
+securityDefinitions:
+  Bearer:
+    type: "apiKey"
+    name: "Authorization"
+    in: "header"
